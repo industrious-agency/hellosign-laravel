@@ -1,0 +1,38 @@
+{
+    "name": "industrious/hellosign-laravel",
+    "description": "Description",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Christian Thomas",
+            "email": "christian@industrious.agency",
+            "homepage": "https://www.industrious.agency"
+        }
+    ],
+    "homepage": "https://github.com/industrious/hellosign-laravel",
+    "keywords": ["Laravel", "hellosign-Laravel", "Hellosign"],
+    "require": {
+        "hellosign/hellosign-php-sdk": "^3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~6.0",
+        "orchestra/testbench": "~3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Industrious\\HellosignLaravel\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Industrious\\HellosignLaravel\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Industrious\\HellosignLaravel\\HellosignLaravelServiceProvider"
+            ]
+        }
+    }
+}
