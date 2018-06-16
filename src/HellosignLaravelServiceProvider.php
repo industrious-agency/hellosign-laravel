@@ -2,6 +2,7 @@
 
 namespace Industrious\HellosignLaravel;
 
+use HelloSign;
 use Illuminate\Support\ServiceProvider;
 
 class HellosignLaravelServiceProvider extends ServiceProvider
@@ -57,12 +58,39 @@ class HellosignLaravelServiceProvider extends ServiceProvider
 
         // Register the service the package provides.
         $this->app->singleton(HellosignLaravel::class, function ($app) {
-            $api_key = '';
+            $config = $app['config']['hellosign.authentication'];
+            $params = $this->getAuthenticationParams($config);
 
-            $this->client = new HelloSign\Client($api_key);
+            $client = new HelloSign\Client(...$params);
 
             return new HellosignLaravel($client);
         });
+    }
+
+    private function getAuthenticationParams(array $config)
+    {
+        $params = null;
+
+        switch ($config['method'])
+        {
+            case 'key':
+                $params = array_get($config['params'], 'api_key');
+                break;
+
+            case 'email':
+                $params = array_only($config['params'], ['email', 'password']);
+                break;
+
+            case 'oauth':
+                $params = array_get($config['params'], 'oauth_token');
+                break;
+        }
+
+        if (! $params) {
+            throw new \Exception('Invalid authentication method specified for hellosign.');
+        }
+
+        return array_values((array) $params);
     }
 
     /**
