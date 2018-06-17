@@ -10,7 +10,7 @@
         }
     ],
     "homepage": "https://github.com/industrious/hellosign-laravel",
-    "keywords": ["Laravel", "hellosign-Laravel", "Hellosign"],
+    "keywords": ["Laravel", "hellosign-Laravel", "HelloSign"],
     "require": {
         "hellosign/hellosign-php-sdk": "^3.0"
     },
@@ -20,18 +20,18 @@
     },
     "autoload": {
         "psr-4": {
-            "Industrious\\HellosignLaravel\\": "src/"
+            "Industrious\\HelloSignLaravel\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Industrious\\HellosignLaravel\\Tests\\": "tests"
+            "Industrious\\HelloSignLaravel\\Tests\\": "tests"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Industrious\\HellosignLaravel\\HellosignLaravelServiceProvider"
+                "Industrious\\HelloSignLaravel\\HelloSignLaravelServiceProvider"
             ]
         }
     }

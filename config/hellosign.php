@@ -1,6 +1,9 @@
 <?php
 
 return [
+
+    'test_mode' => env('HELLOSIGN_TEST_MODE', false),
+
     /**
      *
      */

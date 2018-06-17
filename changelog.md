@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `HellosignLaravel` will be documented in this file.
+All notable changes to `HelloSignLaravel` will be documented in this file.
 
 ## Version 1.0
 

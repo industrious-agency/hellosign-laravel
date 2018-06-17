@@ -1,11 +1,11 @@
 <?php
 
-namespace Industrious\HellosignLaravel;
+namespace Industrious\HelloSignLaravel;
 
 use HelloSign;
 use Illuminate\Support\ServiceProvider;
 
-class HellosignLaravelServiceProvider extends ServiceProvider
+class HelloSignLaravelServiceProvider extends ServiceProvider
 {
     /**
      * Perform post-registration booting of services.
@@ -57,14 +57,30 @@ class HellosignLaravelServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/hellosign.php', 'hellosign');
 
         // Register the service the package provides.
-        $this->app->singleton(HellosignLaravel::class, function ($app) {
-            $config = $app['config']['hellosign.authentication'];
-            $params = $this->getAuthenticationParams($config);
+        $this->app->singleton(Client::class, function ($app) {
+            $config = $app['config']['hellosign'];
+            $params = $this->getAuthenticationParams($config['authentication']);
 
             $client = new HelloSign\Client(...$params);
 
-            return new HellosignLaravel($client);
+            return new Client($client, $config);
         });
+
+        $this->app->singleton(SignatureRequest::class, function ($app) {
+            $config = $app['config']['hellosign'];
+            $params = $this->getAuthenticationParams($config['authentication']);
+
+            $client = resolve(Client::class);
+
+            return new SignatureRequest($client, $config);
+        });
+
+        // $this->app->singleton(HelloSign\Client::class, function ($app) {
+        //     $config = $app['config']['hellosign.authentication'];
+        //     $params = $this->getAuthenticationParams($config);
+
+        //     return new HelloSign\Client(...$params);
+        // });
     }
 
     private function getAuthenticationParams(array $config)
