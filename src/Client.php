@@ -18,11 +18,12 @@ class Client
 
     /**
      * @param HelloSign\Client $client
+     * @param array $config
      */
     public function __construct(HelloSign\Client $client, array $config)
     {
         $this->client = $client;
-        $this->test_mode = array_get($config, 'test_mode');
+        $this->config = $config;
     }
 
     /**
@@ -32,9 +33,9 @@ class Client
     public function __call(string $name, array $arguments)
     {
         if (method_exists($this, $name)) {
-            return $this->{$name}($arguments);
+            return $this->{$name}(...$arguments);
         }
 
-        return $this->client->{$name}($arguments);
+        return $this->client->{$name}(...$arguments);
     }
 }

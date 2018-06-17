@@ -2,7 +2,9 @@
 
 namespace Industrious\HelloSignLaravel\Classes;
 
+use Exception;
 use HelloSign;
+use Industrious\HelloSignLaravel\Client;
 
 class SignatureRequest
 {
@@ -12,55 +14,32 @@ class SignatureRequest
     private $client;
 
     /**
+     * @var HelloSign\Request
+     */
+    private $request;
+
+    /**
      * @var array
      */
     private $config;
 
     /**
-     * @param HelloSign\Client $client
+     * @param HelloSignLaravel\Client $client
+     * @param HelloSign\Request $request
+     * @param array $config
      */
-    public function __construct(HelloSign\Client $client, array $config)
+    public function __construct(Client $client, HelloSign\SignatureRequest $request, array $config)
     {
         $this->client = $client;
-        $this->test_mode = array_get($config, 'test_mode');
+        $this->request = $request;
+        $this->config = $config;
     }
 
     public function send()
     {
-        // $request = new HelloSign\SignatureRequest;
-
-        // $params = [
-        //     'title' => 'setTitle',
-        //     'subject' => 'setSubject',
-        //     'message' => 'setMessage'
-        // ];
-
-        // foreach ($params as $key => $method) {
-        //     if ($value = array_get($data, $key)) {
-        //         $request->{$method}($value);
-        //     }
-        // }
-
-        if ($this->test_mode) {
-            $request->enableTestMode();
-        }
-
-        // foreach ((array) $send_to as $signer)
-        // {
-        //     $signer = (array) $signer;
-
-        //     $email = $signer['email'] ?? $signer[0];
-        //     $name = $signer['name'] ?? array_get($signer, '0', $email);
-
-        //     $request->addSigner($email, $name);
-        // }
-
-        // // $request->addCC('lawyer@example.com');
-        // $request->addFile('nda.pdf');
-
         try {
-            return $this->client->sendSignatureRequest($request);
-        } catch (\Exception $e) {
+            return $this->client->sendSignatureRequest($this->request);
+        } catch (Exception $e) {
             return $e->getMessage();
         }
     }
@@ -72,9 +51,11 @@ class SignatureRequest
     public function __call(string $name, array $arguments)
     {
         if (method_exists($this, $name)) {
-            return $this->{$name}($arguments);
+            return $this->{$name}(...$arguments);
         }
 
-        return $this->client->{$name}($arguments);
+        $this->request->{$name}(...$arguments);
+
+        return $this;
     }
 }

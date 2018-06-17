@@ -14,11 +14,6 @@ class HelloSignLaravelServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'industrious');
-        // $this->loadViewsFrom(__DIR__.'/../resources/views', 'industrious');
-        // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-        // $this->loadRoutesFrom(__DIR__.'/routes.php');
-
         // Publishing is only necessary when using the CLI.
         if ($this->app->runningInConsole()) {
 
@@ -26,21 +21,6 @@ class HelloSignLaravelServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__.'/../config/hellosign.php' => config_path('hellosign.php'),
             ], 'hellosign.config');
-
-            // Publishing the views.
-            // $this->publishes([
-            //     __DIR__.'/../resources/views' => base_path('resources/views/vendor/industrious'),
-            // ], 'hellosign.views');
-
-            // Publishing assets.
-            // $this->publishes([
-            //     __DIR__.'/../resources/assets' => public_path('vendor/industrious'),
-            // ], 'hellosign.views');
-
-            // Publishing the translation files.
-            // $this->publishes([
-            //     __DIR__.'/../resources/lang' => resource_path('lang/vendor/industrious'),
-            // ], 'hellosign.views');
 
             // Registering package commands.
             // $this->commands([]);
@@ -56,7 +36,7 @@ class HelloSignLaravelServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/hellosign.php', 'hellosign');
 
-        // Register the service the package provides.
+        // Register the Hellosign\Client Service
         $this->app->singleton(Client::class, function ($app) {
             $config = $app['config']['hellosign'];
             $params = $this->getAuthenticationParams($config['authentication']);
@@ -66,24 +46,25 @@ class HelloSignLaravelServiceProvider extends ServiceProvider
             return new Client($client, $config);
         });
 
-        $this->app->singleton(SignatureRequest::class, function ($app) {
+        // Register the Hellosign\SignatureRequest Service
+        $this->app->singleton(Classes\SignatureRequest::class, function ($app) {
+            $client = $app->make(Client::class);
+            $request = new HelloSign\SignatureRequest;
             $config = $app['config']['hellosign'];
-            $params = $this->getAuthenticationParams($config['authentication']);
 
-            $client = resolve(Client::class);
+            if (array_get($config, 'test_mode')) {
+                $request->enableTestMode();
+            }
 
-            return new SignatureRequest($client, $config);
+            return new Classes\SignatureRequest($client, $request, $config);
         });
-
-        // $this->app->singleton(HelloSign\Client::class, function ($app) {
-        //     $config = $app['config']['hellosign.authentication'];
-        //     $params = $this->getAuthenticationParams($config);
-
-        //     return new HelloSign\Client(...$params);
-        // });
     }
 
-    private function getAuthenticationParams(array $config)
+    /**
+     * @param  array  $config
+     * @return array
+     */
+    private function getAuthenticationParams(array $config): array
     {
         $params = null;
 
@@ -98,7 +79,8 @@ class HelloSignLaravelServiceProvider extends ServiceProvider
                 break;
 
             case 'oauth':
-                $params = array_get($config['params'], 'oauth_token');
+                $token = array_get($config['params'], 'oauth_token');
+                $params = new HelloSign\OAuthToken($token);
                 break;
         }
 
