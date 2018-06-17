@@ -2,19 +2,19 @@
 
 return [
 
-    /**
+    /*
      *
      */
     'test_mode' => env('HELLOSIGN_TEST_MODE', false),
 
-    /**
+    /*
      * Any templates you want to use with HelloSign
      */
     'templates' => [
         // 'contract' => '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8',
     ],
 
-    /**
+    /*
      *
      */
     'authentication' => [
