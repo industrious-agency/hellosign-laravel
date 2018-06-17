@@ -49,7 +49,7 @@ public function sign(SignatureRequest $signature_request)
         ->setTitle('Title')
         ->setSubject('Subject')
         ->setMessage('Message')
-        ->addSigner('email@address.com', 'email@address.com');
+        ->addSigner('email@address.com', 'Client name');
 
     $file = storage_path('app/file.pdf');
 
@@ -57,6 +57,26 @@ public function sign(SignatureRequest $signature_request)
 
     $response = $request->send();
     
+    ...
+```
+
+```php
+/**
+ * @param  HelloSignLaravel\Classes\SignatureRequest $signature_request
+ */
+public function templateSign(TemplateSignatureRequest $signature_request)
+{
+    $request = $signature_request
+        ->setTemplateId(config('hellosign.templates.contract'))
+        ->setTitle('Title')
+        ->setSubject('Subject')
+        ->setMessage('Message')
+        ->setSigner('Client', 'email@address.com', 'Test User');
+
+    $request->setCustomFieldValue('Name', 'Test User');
+
+    $response = $request->send();
+
     ...
 ```
 

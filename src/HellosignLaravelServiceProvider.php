@@ -52,11 +52,16 @@ class HellosignLaravelServiceProvider extends ServiceProvider
             $request = new HelloSign\SignatureRequest;
             $config = $app['config']['hellosign'];
 
-            if (array_get($config, 'test_mode')) {
-                $request->enableTestMode();
-            }
-
             return new Classes\SignatureRequest($client, $request, $config);
+        });
+
+        // Register the Hellosign\TemplateSignatureRequest Service
+        $this->app->singleton(Classes\TemplateSignatureRequest::class, function ($app) {
+            $client = $app->make(Client::class);
+            $request = new HelloSign\TemplateSignatureRequest;
+            $config = $app['config']['hellosign'];
+
+            return new Classes\TemplateSignatureRequest($client, $request, $config);
         });
     }
 

@@ -11,30 +11,39 @@ class SignatureRequest
     /**
      * @var HelloSign\Client
      */
-    private $client;
+    protected $client;
 
     /**
      * @var HelloSign\Request
      */
-    private $request;
+    protected $request;
 
     /**
      * @var array
      */
-    private $config;
+    protected $config;
 
     /**
      * @param HelloSignLaravel\Client $client
-     * @param HelloSign\Request $request
+     * @param HelloSign\AbstractSignatureRequest $request
      * @param array $config
      */
-    public function __construct(Client $client, HelloSign\SignatureRequest $request, array $config)
+    public function __construct(Client $client, HelloSign\AbstractSignatureRequest $request, array $config)
     {
         $this->client = $client;
         $this->request = $request;
         $this->config = $config;
+
+        if (array_get($this->config, 'test_mode')) {
+            $this->request->enableTestMode();
+        }
     }
 
+    /**
+     * Send a signature request
+     *
+     * @return mixed
+     */
     public function send()
     {
         try {
