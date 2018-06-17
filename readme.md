@@ -55,7 +55,7 @@ public function sign(SignatureRequest $signature_request)
 
     $request->addFile($file);
 
-    $response =  $request->send();
+    $response = $request->send();
     
     ...
 ```
