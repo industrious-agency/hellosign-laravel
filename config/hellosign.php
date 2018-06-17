@@ -4,7 +4,7 @@ return [
 
     'test_mode' => env('HELLOSIGN_TEST_MODE', false),
 
-    /**
+    /*
      *
      */
     'authentication' => [
@@ -22,7 +22,7 @@ return [
 
             //  Required for 'oauth' method
             'oauth_token' => env('HELLOSIGN_API_OAUTH_TOKEN'),
-        ]
+        ],
     ],
 
 ];
