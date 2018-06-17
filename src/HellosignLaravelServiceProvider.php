@@ -20,7 +20,7 @@ class HellosignLaravelServiceProvider extends ServiceProvider
             // Publishing the configuration file.
             $this->publishes([
                 __DIR__.'/../config/hellosign.php' => config_path('hellosign.php'),
-            ], 'hellosign.config');
+            ], 'laravel-hellosign');
 
             // Registering package commands.
             // $this->commands([]);
