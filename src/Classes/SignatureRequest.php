@@ -40,7 +40,7 @@ class SignatureRequest
     }
 
     /**
-     * Send a signature request
+     * Send a signature request.
      *
      * @return mixed
      */

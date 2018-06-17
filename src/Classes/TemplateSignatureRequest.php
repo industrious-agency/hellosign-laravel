@@ -7,7 +7,7 @@ use Exception;
 class TemplateSignatureRequest extends SignatureRequest
 {
     /**
-     * Send a templated signature request
+     * Send a templated signature request.
      *
      * @return mixed
      */
