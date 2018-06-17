@@ -5,7 +5,7 @@ namespace Industrious\HelloSignLaravel;
 use HelloSign;
 use Illuminate\Support\ServiceProvider;
 
-class HelloSignLaravelServiceProvider extends ServiceProvider
+class HellosignLaravelServiceProvider extends ServiceProvider
 {
     /**
      * Perform post-registration booting of services.
@@ -68,8 +68,7 @@ class HelloSignLaravelServiceProvider extends ServiceProvider
     {
         $params = null;
 
-        switch ($config['method'])
-        {
+        switch ($config['method']) {
             case 'key':
                 $params = array_get($config['params'], 'api_key');
                 break;
