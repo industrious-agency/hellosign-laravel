@@ -31,7 +31,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Industrious\\HelloSignLaravel\\HelloSignLaravelServiceProvider"
+                "Industrious\\HelloSignLaravel\\HellosignLaravelServiceProvider"
             ]
         }
     }
