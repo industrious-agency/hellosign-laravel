@@ -4,6 +4,8 @@ namespace Industrious\HelloSignLaravel;
 
 use HelloSign;
 use Illuminate\Support\ServiceProvider;
+use Industrious\HelloSignLaravel\Requests\FileRequest;
+use Industrious\HelloSignLaravel\Requests\SignatureRequest;
 
 class HellosignLaravelServiceProvider extends ServiceProvider
 {
@@ -62,6 +64,24 @@ class HellosignLaravelServiceProvider extends ServiceProvider
             $config = $app['config']['hellosign'];
 
             return new Classes\TemplateSignatureRequest($client, $request, $config);
+        });
+
+        // Register the Hellosign\GetFileRequest Service
+        $this->app->singleton(Classes\GetFileRequest::class, function ($app) {
+            $client = $app->make(Client::class);
+            $request = new FileRequest;
+            $config = $app['config']['hellosign'];
+
+            return new Classes\GetFileRequest($client, $request, $config);
+        });
+
+        // Register the Hellosign\GetFileRequest Service
+        $this->app->singleton(Classes\StatusRequest::class, function ($app) {
+            $client = $app->make(Client::class);
+            $request = new SignatureRequest;
+            $config = $app['config']['hellosign'];
+
+            return new Classes\StatusRequest($client, $request, $config);
         });
     }
 
