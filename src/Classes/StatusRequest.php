@@ -2,9 +2,9 @@
 
 namespace Industrious\HelloSignLaravel\Classes;
 
+use Exception;
 use Industrious\HelloSignLaravel\Client;
 use Industrious\HelloSignLaravel\Requests\SignatureRequest;
-use Exception;
 
 class StatusRequest
 {

@@ -2,8 +2,8 @@
 
 namespace Industrious\HelloSignLaravel\Requests;
 
-Class FileRequest {
-
+class FileRequest
+{
     public function __construct()
     {
         $this->signature_request_id = null;
