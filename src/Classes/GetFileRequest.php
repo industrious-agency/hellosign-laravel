@@ -2,9 +2,9 @@
 
 namespace Industrious\HelloSignLaravel\Classes;
 
+use Exception;
 use Industrious\HelloSignLaravel\Client;
 use Industrious\HelloSignLaravel\Requests\FileRequest;
-use Exception;
 
 class GetFileRequest
 {
@@ -34,6 +34,7 @@ class GetFileRequest
         $this->request = $request;
         $this->config = $config;
     }
+
     /**
      * Send a signature request.
      *
